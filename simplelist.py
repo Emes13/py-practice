@@ -1,5 +1,11 @@
-#Little coding practice
-# removed need for global activesession
+# Little coding practice
+# Behavior: Simply appends any text entered to a list, split on single space
+#           Upon entering '] ' as first term, three special commands are
+#			available: list (list all items); search (match string to item); quit
+
+# -removed need for global activesession
+# -eliminated returns from each if statement - redundant
+
 # To do:
 # 1. make search not case sensitive
 # 2. figure out how to avoid global by returning list from function instead
@@ -24,9 +30,8 @@ def process_command(command, activesession):
   
     if command[1] == "quit":
         activesession = False
-        return activesession
-    
-    elif command[1] == "search": #elif for readability even tho prev if returns
+         
+    elif command[1] == "search":
         search_term = command[2]
         term_exists = False # Does not exist until proven otherwise.
         for i in user_defined_data:
@@ -35,16 +40,15 @@ def process_command(command, activesession):
                 print(i)
             
         if not term_exists: print("Your search term was not found.")
-        return activesession
             
     elif command[1] == "list":
         for i in user_defined_data:
             print(i,)
-        return activesession
 		
     else:
 	    print("Invalid command.")
-	    return activesession
+
+    return activesession
 
 def store_data(activesession):
     global user_defined_data
