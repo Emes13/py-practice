@@ -1,26 +1,6 @@
 '''
-a123453789a
-m--m--m---m
-1. From a given index, find all value matches in the string
------no, actually just find the first one
------when the loop reaches the end of the string without a match, return the length until the end of the string.
------  abcda - length without matches is 4, index math gives str[4]-str[0] so good.
------  abcde - lw/om is 5, so len(str) has to be added to lengths.
------  abbde - lw/om is 3, have to do len(str)-str[2]...
-==========so basically, create a special index value of len(str) that is put as the second # in the tuple and then everything is uniform
-2. Get the max distance for every consecutive distance in the match list
-3. Save a record of index1 and index2 (segment), and the distance.
-   (It seems that this should be a dict where the distance is the key (for easy finding
-     of max) and the segment should be the value (stored as a tuple?))
-4. Do the same for each next index in the string and add to the list of records.
-5. Now starting with the max distance recorded in the records, find if
-   any of the other segments in the records are inside it (index1sub2>index1sub1 && index2sub2<index2sub1)
-6. If so, break and proceed to the next largest distance.
-7. When a distance is found with no other segments inside it, it is the max distance without 
-   repeated chars. 
-   
-s = abcdbfgh
-if index1 = 1 then it will find the match at index2 = 2, which is 4 of the orig string, so index2 + index1 + 1 is good.
+Given a string s, find the length of the longest substring without repeating characters.
+This only beat 5.01% of submissions for time and ran in 1816ms, so plenty of room for improvement.
 '''
 from random import random
 from math import floor
@@ -35,8 +15,6 @@ def lengthOfLongestSubstring(s: str) -> int:
 	# we will need to know the position because if a repeated char is nested between two that are spaced
 	# further apart, it will not be a valid length of only nonrepeating characters.
 	
-	# abcb = b -> 
-	
 	for index1, char1 in enumerate(s):
 		for index2, char2 in enumerate(s[index1+1:]):
 			if char2 == char1:
@@ -46,13 +24,9 @@ def lengthOfLongestSubstring(s: str) -> int:
 				## not how many instances of it there are.
 				# Truth: You end up deleting substrings without any interpolating strings and keeping one that does have and ends up getting deleted.
 				### Solution: add a random float to the key, then remove it with floor() later to compare.
-				# test
-				print(f"{segments} (f1-1)")
 				break
 			elif (index2 + index1 + 1) + 1 == slen: # are we at the end of the string slice without a match?
 				segments[slen - index1] = (index1, slen) # slen is a "phantom" index representing the end of the str for our purposes
-				#test
-				print(f"{segments} (f1-2)")
 			else:
 				continue
 	# We should now have segments filled with every segment that begins and ends with the same char
@@ -83,19 +57,13 @@ def max_non_nested_value(segments_to_consume: dict, original_string: str)  -> in
 			
 			# Cut out the record of the interpolated larger substring.
 			del segments_to_consume[max_to_try]
-			
-			#test
-			print(f"{segments_to_consume} (f2)")
-			max_non_nested_value(segments_to_consume, original_string)
+			max_non_nested_value(segments_to_consume, original_string) # recursive call
 			break # needed to prevent the for loop from needlessly continuing in each recursion
 		else:
 			continue
-			'''
-			Is it a problem that two segs of equal length will be assigned
-			different float signatures, one greater than the other?
-			'''			
 	return floor(max(segments_to_consume))
 	
 while True:
 	print(lengthOfLongestSubstring(input("string: ")))
+	
 	
