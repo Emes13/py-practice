@@ -1,7 +1,7 @@
 '''
 Given a string s, find the length of the longest substring without repeating characters.
 This only beat 5.01% of submissions for time and ran in 1816ms, so plenty of room for improvement.
-"lols" in the filename stands for "lenght of longest string" but also "lol this code is really bad"!
+"lols" in the filename stands for "length of longest string" but also "lol this code is really bad"!
 '''
 from random import random
 from math import floor
